@@ -5,6 +5,7 @@ import { PrismaModule } from './infrastructure/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { RbacModule } from './modules/rbac/rbac.module';
+import { GpsModule } from './modules/gps/gps.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { RbacModule } from './modules/rbac/rbac.module';
     AuthModule,
     UsersModule,
     RbacModule,
+    GpsModule,
   ],
 })
 export class AppModule {}

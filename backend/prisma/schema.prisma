@@ -186,3 +186,60 @@ model UserPermission {
   @@id([userId, permissionId])
   @@map("user_permissions")
 }
+
+enum VisitStatus {
+  planned
+  started
+  completed
+  skipped
+
+  @@map("visit_status")
+}
+
+model GpsLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  deviceId   String   @map("device_id") @db.VarChar(128)
+  recordedAt DateTime @default(now()) @map("recorded_at") @db.Timestamptz(6)
+  lat        Float
+  lng        Float
+  accuracyM  Float?   @map("accuracy_m")
+  speedKmh   Float?   @map("speed_kmh")
+  isMocked   Boolean  @default(false) @map("is_mocked")
+
+  @@map("gps_logs")
+}
+
+model Visit {
+  id         String      @id @default(uuid()) @db.Uuid
+  managerId  String      @map("manager_id") @db.Uuid
+  clientId   String      @map("client_id") @db.Uuid
+  plannedAt  DateTime?   @map("planned_at") @db.Timestamptz(6)
+  startedAt  DateTime?   @map("started_at") @db.Timestamptz(6)
+  endedAt    DateTime?   @map("ended_at") @db.Timestamptz(6)
+  status     VisitStatus @default(planned)
+  startGpsId String?     @map("start_gps_id") @db.Uuid
+  endGpsId   String?     @map("end_gps_id") @db.Uuid
+  distanceM  Float?      @map("distance_m")
+  createdAt  DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  events VisitEvent[]
+
+  @@map("visits")
+}
+
+model VisitEvent {
+  id         String   @id @default(uuid()) @db.Uuid
+  visitId    String?  @map("visit_id") @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  clientId   String   @map("client_id") @db.Uuid
+  geofenceId String?  @map("geofence_id") @db.Uuid
+  gpsLogId   String?  @map("gps_log_id") @db.Uuid
+  eventType  String   @map("event_type") @db.VarChar(32)
+  payload    Json     @default("{}")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  visit Visit? @relation(fields: [visitId], references: [id], onDelete: SetNull)
+
+  @@map("visit_events")
+}
