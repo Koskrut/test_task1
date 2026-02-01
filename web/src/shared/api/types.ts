@@ -1,5 +1,3 @@
-import type { PaginatedResult } from '../types/pagination'
-
 export interface ApiErrorResponse {
   message?: string
   error?: string
@@ -7,4 +5,9 @@ export interface ApiErrorResponse {
   details?: unknown
 }
 
-export type ApiPaginatedResponse<T> = PaginatedResult<T>
+export interface ApiPaginatedResponse<T> {
+  items: T[]
+  total: number
+  page: number
+  limit: number
+}
