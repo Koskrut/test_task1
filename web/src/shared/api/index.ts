@@ -1,0 +1,6 @@
+export * as authApi from './authApi'
+export * as clientsApi from './clientsApi'
+export * as dealsApi from './dealsApi'
+export * as ordersApi from './ordersApi'
+export * as shipmentsApi from './shipmentsApi'
+export * from './types'
