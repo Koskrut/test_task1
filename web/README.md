@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# CRM Web Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite CRM frontend built with an **API-first** and
+**feature-based** architecture. The UI is role-aware (Admin / Manager) and
+consumes existing REST APIs only—no business logic in pages.
 
-Currently, two official plugins are available:
+## Architecture
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```
+src/
+  app/
+    providers/        # query, router, auth wrappers
+    router/           # routes + guards
+    layouts/          # main layout, auth layout
 
-## React Compiler
+  features/
+    auth/
+      ui/
+      model/
+      api/
+    clients/
+    deals/
+    orders/
+    kanban/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+  entities/
+    user/
+    client/
+    deal/
+    order/
 
-## Expanding the ESLint configuration
+  shared/
+    api/              # HTTP client + endpoint wrappers
+    ui/               # reusable UI components
+    hooks/            # shared hooks
+    lib/              # helpers (env, jwt, clsx)
+    types/            # shared types
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+  pages/              # route composition only
+  main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Rules
+- **No API calls outside `shared/api`.**
+- **Pages** are just route composition (no business logic).
+- **Features** contain UI + model (hooks) + API re-exports.
+- **Entities** contain domain types and helpers only.
+- **Shared** is reusable and feature-agnostic.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Auth Flow
+1. `/auth/login` returns `accessToken` + `refreshToken`.
+2. Tokens stored in Zustand.
+3. `shared/api/http.ts` injects `Authorization` header.
+4. On `401`, it automatically calls `/auth/refresh` and retries once.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Environment
 ```
+VITE_API_BASE_URL=http://localhost:3000/api/v1
+```
+
+## Notes
+- All data access happens through `shared/api/*`.
+- Role-based UI gates routes via `app/router/guards.tsx`.
