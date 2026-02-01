@@ -1,7 +1,6 @@
 import { apiRequest } from './apiClient'
 import type { ApiPaginatedResponse } from './types'
-
-type Client = import('../../entities/client/model/types').Client
+import type { Client } from '../../entities/client/model/types'
 
 export interface ClientsQuery {
   page?: number

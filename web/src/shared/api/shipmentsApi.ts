@@ -1,5 +1,5 @@
 import { apiRequest } from './apiClient'
-type ShipmentStatus = import('../../entities/order/model/types').ShipmentStatus
+import type { ShipmentStatus } from '../../entities/order/model/types'
 
 export async function getShipmentStatus(ttn: string): Promise<ShipmentStatus> {
   return apiRequest({
