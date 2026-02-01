@@ -7,7 +7,13 @@ import axios, {
 import { env } from '../lib/env'
 import { useAuthStore } from '../../features/auth/model/authStore'
 import type { AuthTokens } from '../types/auth'
-import type { ApiErrorResponse } from './types'
+
+type ApiErrorResponse = {
+  message?: string
+  error?: string
+  statusCode?: number
+  details?: unknown
+}
 
 declare module 'axios' {
   export interface InternalAxiosRequestConfig {
