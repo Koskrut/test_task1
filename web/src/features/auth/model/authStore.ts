@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { AuthTokens } from '../../../shared/types/auth'
+import type { AuthTokens } from '../../../shared/types/auth'
 import { AuthUser } from '../../../entities/user/model/types'
 
 export type AuthStatus = 'idle' | 'checking' | 'authenticated' | 'unauthenticated'

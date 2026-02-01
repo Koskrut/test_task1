@@ -1,6 +1,7 @@
 import { apiRequest } from './apiClient'
-import { AuthTokens } from '../types/auth'
-import { AuthUser, UserRole } from '../../entities/user/model/types'
+import type { AuthTokens } from '../types/auth'
+import type { AuthUser } from '../../entities/user/model/types'
+import { UserRole } from '../../entities/user/model/types'
 import { parseJwt } from '../lib/jwt'
 
 export interface LoginResponse extends AuthTokens {

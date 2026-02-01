@@ -6,8 +6,8 @@ import axios, {
 } from 'axios'
 import { env } from '../lib/env'
 import { useAuthStore } from '../../features/auth/model/authStore'
-import { AuthTokens } from '../types/auth'
-import { ApiErrorResponse } from './types'
+import type { AuthTokens } from '../types/auth'
+import type { ApiErrorResponse } from './types'
 
 declare module 'axios' {
   export interface InternalAxiosRequestConfig {

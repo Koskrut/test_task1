@@ -1,4 +1,4 @@
-import { PaginatedResult } from '../types/pagination'
+import type { PaginatedResult } from '../types/pagination'
 
 export interface ApiErrorResponse {
   message?: string
