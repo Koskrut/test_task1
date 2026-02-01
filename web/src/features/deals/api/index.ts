@@ -1,1 +1,1 @@
-export { getPipelines, getDeals, updateDealStage } from '../../../shared/api/deals'
+export { getPipelines, getDeals, updateDealStage } from '../../../shared/api/dealsApi'

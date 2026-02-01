@@ -1,6 +1,9 @@
-import { apiRequest } from './http'
+import { apiRequest } from './apiClient'
 import { ShipmentStatus } from '../../entities/order/model/types'
 
 export async function getShipmentStatus(ttn: string): Promise<ShipmentStatus> {
-  return apiRequest(`/shipments/${ttn}`)
+  return apiRequest({
+    url: `/shipments/${ttn}`,
+    method: 'GET',
+  })
 }

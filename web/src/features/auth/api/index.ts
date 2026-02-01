@@ -1,2 +1,2 @@
-export { login, logout } from '../../../shared/api/auth'
-export type { LoginResponse } from '../../../shared/api/auth'
+export { login, logout, refresh, getCurrentUser } from '../../../shared/api/authApi'
+export type { LoginResponse } from '../../../shared/api/authApi'
