@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { RequireAuth, RequireRole } from './guards'
+import { ProtectedRoute, RoleGuard } from './guards'
 import { MainLayout } from '../layouts/MainLayout'
 import { LoginPage } from '../../pages/auth/LoginPage'
 import { DashboardPage } from '../../pages/dashboard/DashboardPage'
@@ -20,50 +20,50 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <RequireAuth>
+      <ProtectedRoute>
         <MainLayout />
-      </RequireAuth>
+      </ProtectedRoute>
     ),
     children: [
       { index: true, element: <DashboardPage /> },
       {
         path: 'clients',
         element: (
-          <RequireRole roles={[UserRole.Admin, UserRole.Manager]}>
+          <RoleGuard roles={[UserRole.Admin, UserRole.Manager]}>
             <ClientsListPage />
-          </RequireRole>
+          </RoleGuard>
         ),
       },
       {
         path: 'clients/:id',
         element: (
-          <RequireRole roles={[UserRole.Admin, UserRole.Manager]}>
+          <RoleGuard roles={[UserRole.Admin, UserRole.Manager]}>
             <ClientDetailPage />
-          </RequireRole>
+          </RoleGuard>
         ),
       },
       {
         path: 'deals',
         element: (
-          <RequireRole roles={[UserRole.Admin, UserRole.Manager]}>
+          <RoleGuard roles={[UserRole.Admin, UserRole.Manager]}>
             <DealsKanbanPage />
-          </RequireRole>
+          </RoleGuard>
         ),
       },
       {
         path: 'orders',
         element: (
-          <RequireRole roles={[UserRole.Admin, UserRole.Manager]}>
+          <RoleGuard roles={[UserRole.Admin, UserRole.Manager]}>
             <OrdersListPage />
-          </RequireRole>
+          </RoleGuard>
         ),
       },
       {
         path: 'orders/:id',
         element: (
-          <RequireRole roles={[UserRole.Admin, UserRole.Manager]}>
+          <RoleGuard roles={[UserRole.Admin, UserRole.Manager]}>
             <OrderDetailPage />
-          </RequireRole>
+          </RoleGuard>
         ),
       },
     ],

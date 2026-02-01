@@ -1,6 +1,7 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuthStore } from '../../features/auth/model/authStore'
+import { useLogout } from '../../features/auth/model/useLogout'
 import { UserRole } from '../../entities/user/model/types'
 import { Button } from '../../shared/ui/Button'
 
@@ -13,8 +14,8 @@ const navItems = [
 
 export function MainLayout() {
   const [open, setOpen] = useState(false)
-  const role = useAuthStore((state) => state.user?.role)
-  const logout = useAuthStore((state) => state.logout)
+  const role = useAuthStore((state) => state.currentUser?.role)
+  const logout = useLogout()
   const navigate = useNavigate()
 
   const filtered = navItems.filter((item) => role && item.roles.includes(role))
@@ -75,8 +76,8 @@ export function MainLayout() {
           <div className="flex items-center gap-2">
             <Button
               variant="secondary"
-              onClick={() => {
-                logout()
+              onClick={async () => {
+                await logout()
                 navigate('/login')
               }}
             >

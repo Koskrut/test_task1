@@ -3,14 +3,18 @@ import { persist } from 'zustand/middleware'
 import { AuthTokens } from '../../../shared/types/auth'
 import { AuthUser } from '../../../entities/user/model/types'
 
+export type AuthStatus = 'idle' | 'checking' | 'authenticated' | 'unauthenticated'
+
 interface AuthState {
   accessToken: string | null
   refreshToken: string | null
-  user: AuthUser | null
+  currentUser: AuthUser | null
+  status: AuthStatus
   setAuth: (tokens: AuthTokens, user: AuthUser) => void
   setTokens: (tokens: AuthTokens) => void
-  setUser: (user: AuthUser | null) => void
-  logout: () => void
+  setCurrentUser: (user: AuthUser | null) => void
+  setStatus: (status: AuthStatus) => void
+  clearAuth: () => void
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -18,24 +22,32 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       accessToken: null,
       refreshToken: null,
-      user: null,
+      currentUser: null,
+      status: 'idle',
       setAuth: (tokens, user) =>
         set({
           accessToken: tokens.accessToken,
           refreshToken: tokens.refreshToken,
-          user,
+          currentUser: user,
+          status: 'authenticated',
         }),
       setTokens: (tokens) =>
         set({
           accessToken: tokens.accessToken,
           refreshToken: tokens.refreshToken,
         }),
-      setUser: (user) => set({ user }),
-      logout: () =>
+      setCurrentUser: (user) =>
+        set({
+          currentUser: user,
+          status: user ? 'authenticated' : 'unauthenticated',
+        }),
+      setStatus: (status) => set({ status }),
+      clearAuth: () =>
         set({
           accessToken: null,
           refreshToken: null,
-          user: null,
+          currentUser: null,
+          status: 'unauthenticated',
         }),
     }),
     {

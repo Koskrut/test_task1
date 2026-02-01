@@ -1,8 +1,6 @@
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../api'
-import { useAuthStore } from '../model/authStore'
+import { useLogin } from '../model/useLogin'
 import { Button } from '../../../shared/ui/Button'
 import { Input } from '../../../shared/ui/Input'
 import { Card } from '../../../shared/ui/Card'
@@ -12,16 +10,18 @@ import { Spinner } from '../../../shared/ui/Spinner'
 export function LoginView() {
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
-  const setAuth = useAuthStore((state) => state.setAuth)
   const navigate = useNavigate()
 
-  const mutation = useMutation({
-    mutationFn: () => login(identifier, password),
-    onSuccess: (data) => {
-      setAuth(data, data.user)
-      navigate('/')
-    },
-  })
+  const mutation = useLogin()
+
+  const handleSubmit = () => {
+    mutation.mutate(
+      { identifier, password },
+      {
+        onSuccess: () => navigate('/'),
+      },
+    )
+  }
 
   return (
     <Card className="w-full max-w-sm">
@@ -69,7 +69,7 @@ export function LoginView() {
         <Button
           className="w-full"
           disabled={mutation.isPending}
-          onClick={() => mutation.mutate()}
+          onClick={handleSubmit}
         >
           {mutation.isPending ? <Spinner /> : 'Sign in'}
         </Button>
