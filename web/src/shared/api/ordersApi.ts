@@ -1,6 +1,7 @@
 import { apiRequest } from './apiClient'
 import type { ApiPaginatedResponse } from './types'
-import type { Order } from '../../entities/order/model/types'
+
+type Order = import('../../entities/order/model/types').Order
 
 export interface OrdersQuery {
   page?: number
