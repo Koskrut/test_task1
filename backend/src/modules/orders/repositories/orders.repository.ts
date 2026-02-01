@@ -1,11 +1,11 @@
-import { OrderStatus, PaymentStatus, Prisma } from '@prisma/client';
+import { OrderStatus, PaymentStatus } from '../../../common/types/status';
 
 export interface OrderItemEntity {
   id: string;
   productId: string | null;
   qty: number;
-  priceAmount: Prisma.Decimal;
-  totalAmount: Prisma.Decimal;
+  priceAmount: number;
+  totalAmount: number;
 }
 
 export interface OrderEntity {
@@ -16,7 +16,7 @@ export interface OrderEntity {
   source: string;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
-  totalAmount: Prisma.Decimal;
+  totalAmount: number;
   currency: string;
   createdAt: Date;
   updatedAt: Date;

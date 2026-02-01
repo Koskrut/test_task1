@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import {
   CreateShipmentInput,
@@ -20,7 +19,7 @@ export class PrismaShipmentsRepository implements ShipmentsRepository {
         status: data.status,
         costAmount:
           data.costAmount !== undefined && data.costAmount !== null
-            ? new Prisma.Decimal(data.costAmount)
+            ? data.costAmount
             : undefined,
         raw: data.raw,
       },

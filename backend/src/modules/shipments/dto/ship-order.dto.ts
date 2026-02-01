@@ -8,34 +8,34 @@ export enum PayerType {
 
 export class ShipOrderDto {
   @IsString()
-  senderWarehouseRef: string;
+  senderWarehouseRef!: string;
 
   @IsString()
-  recipientCityRef: string;
+  recipientCityRef!: string;
 
   @IsString()
-  recipientWarehouseRef: string;
+  recipientWarehouseRef!: string;
 
   @IsString()
-  recipientName: string;
+  recipientName!: string;
 
   @IsString()
-  recipientPhone: string;
+  recipientPhone!: string;
 
   @Type(() => Number)
   @IsNumber()
   @Min(0.1)
-  weightKg: number;
+  weightKg!: number;
 
   @Type(() => Number)
   @IsNumber()
   @Min(0)
-  cost: number;
+  cost!: number;
 
   @Type(() => Number)
   @IsNumber()
   @Min(1)
-  seatsAmount: number;
+  seatsAmount!: number;
 
   @IsOptional()
   @IsString()

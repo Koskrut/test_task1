@@ -2,7 +2,7 @@ import { IsOptional, IsUUID } from 'class-validator';
 
 export class VisitStartDto {
   @IsUUID()
-  clientId: string;
+  clientId!: string;
 
   @IsOptional()
   @IsUUID()

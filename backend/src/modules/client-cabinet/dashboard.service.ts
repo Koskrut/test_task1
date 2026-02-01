@@ -3,7 +3,7 @@ import { CLIENT_ORDERS_REPOSITORY } from './client-cabinet.tokens';
 import { DashboardResponseDto } from './dto/dashboard-response.dto';
 import { ClientOrdersRepository } from './repositories/client-orders.repository';
 import { ClientContextService } from './client-context.service';
-import { OrderStatus } from '@prisma/client';
+import { OrderStatus } from '../../common/types/status';
 
 @Injectable()
 export class DashboardService {

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import {
   CreateOrderInput,
@@ -7,6 +6,7 @@ import {
   OrderEntity,
   OrdersRepository,
 } from '../repositories/orders.repository';
+import { OrderStatus } from '../../../common/types/status';
 
 @Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {
@@ -16,7 +16,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
     order: CreateOrderInput,
     items: CreateOrderItemInput[],
   ): Promise<OrderEntity> {
-    return this.prisma.$transaction(async (tx) => {
+    return this.prisma.$transaction(async (tx: any) => {
       const created = await tx.order.create({
         data: {
           orderNumber: order.orderNumber,
@@ -24,7 +24,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
           managerId: order.managerId ?? null,
           source: order.source,
           currency: order.currency,
-          totalAmount: new Prisma.Decimal(order.totalAmount),
+          totalAmount: order.totalAmount,
         },
       });
 
@@ -33,8 +33,8 @@ export class PrismaOrdersRepository implements OrdersRepository {
           orderId: created.id,
           productId: item.productId,
           qty: item.qty,
-          priceAmount: new Prisma.Decimal(item.priceAmount),
-          totalAmount: new Prisma.Decimal(item.totalAmount),
+          priceAmount: item.priceAmount,
+          totalAmount: item.totalAmount,
         })),
       });
 
@@ -54,7 +54,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
 
   async updateStatus(
     id: string,
-    status: Prisma.OrderStatus,
+    status: OrderStatus,
   ): Promise<OrderEntity> {
     return this.prisma.order.update({
       where: { id },

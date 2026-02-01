@@ -2,7 +2,7 @@ import { IsOptional, IsUUID } from 'class-validator';
 
 export class AssignPermissionDto {
   @IsUUID()
-  permissionId: string;
+  permissionId!: string;
 
   @IsOptional()
   @IsUUID()

@@ -5,7 +5,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { DeliveryStatus, OrderStatus } from '@prisma/client';
+import { DeliveryStatus, OrderStatus } from '../../common/types/status';
 import {
   DELIVERIES_REPOSITORY,
   DELIVERY_EVENTS_REPOSITORY,

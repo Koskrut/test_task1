@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DeliveryStatus, OrderStatus, PaymentStatus, Prisma } from '@prisma/client';
+import { DeliveryStatus, OrderStatus, PaymentStatus } from '../../../common/types/status';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import {
   ClientOrderDetailRecord,
@@ -134,23 +134,23 @@ export class PrismaClientOrdersRepository implements ClientOrdersRepository {
     items: {
       productId: string | null;
       qty: number;
-      priceAmount: Prisma.Decimal;
+      priceAmount: number;
     }[],
     managerId?: string | null,
   ): Promise<ClientOrderDetailRecord> {
     const totalAmount = items.reduce(
-      (sum, item) => sum + item.priceAmount.toNumber() * item.qty,
+      (sum, item) => sum + item.priceAmount * item.qty,
       0,
     );
 
-    const created = await this.prisma.$transaction(async (tx) => {
+    const created = await this.prisma.$transaction(async (tx: any) => {
       const order = await tx.order.create({
         data: {
           orderNumber: this.generateOrderNumber(),
           clientId,
           managerId: managerId ?? null,
           source,
-          totalAmount: new Prisma.Decimal(totalAmount),
+          totalAmount,
           currency: 'UAH',
           status: OrderStatus.pending_payment,
         },
@@ -162,9 +162,7 @@ export class PrismaClientOrdersRepository implements ClientOrdersRepository {
           productId: item.productId,
           qty: item.qty,
           priceAmount: item.priceAmount,
-          totalAmount: new Prisma.Decimal(
-            item.priceAmount.toNumber() * item.qty,
-          ),
+          totalAmount: item.priceAmount * item.qty,
         })),
       });
 
@@ -200,7 +198,7 @@ export class PrismaClientOrdersRepository implements ClientOrdersRepository {
     orderNumber: string;
     status: OrderStatus;
     paymentStatus: PaymentStatus;
-    totalAmount: Prisma.Decimal;
+    totalAmount: number;
     currency: string;
     createdAt: Date;
     delivery: { status: DeliveryStatus; ttn: string | null; shipments: { status: string | null }[] } | null;

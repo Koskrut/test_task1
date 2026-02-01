@@ -3,7 +3,7 @@ import { IsOptional, IsString, Length } from 'class-validator';
 export class CreatePermissionDto {
   @IsString()
   @Length(2, 128)
-  code: string;
+  code!: string;
 
   @IsOptional()
   @IsString()

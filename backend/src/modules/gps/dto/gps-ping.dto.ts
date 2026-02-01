@@ -13,25 +13,25 @@ import {
 export class GpsPingDto {
   @Type(() => Number)
   @IsLatitude()
-  lat: number;
+  lat!: number;
 
   @Type(() => Number)
   @IsLongitude()
-  lng: number;
+  lng!: number;
 
   @Type(() => Number)
   @IsNumber()
   @Min(0)
-  accuracy: number;
+  accuracy!: number;
 
   @Type(() => Number)
   @IsNumber()
   @Min(0)
-  speed: number;
+  speed!: number;
 
   @IsString()
   @IsNotEmpty()
-  device_id: string;
+  device_id!: string;
 
   @IsOptional()
   @IsBoolean()

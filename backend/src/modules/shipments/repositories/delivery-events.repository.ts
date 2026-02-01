@@ -1,4 +1,4 @@
-import { DeliveryStatus } from '@prisma/client';
+import { DeliveryStatus } from '../../../common/types/status';
 
 export interface CreateDeliveryEventInput {
   deliveryId: string;

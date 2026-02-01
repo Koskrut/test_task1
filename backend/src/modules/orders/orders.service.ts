@@ -5,7 +5,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { OrderStatus, PaymentStatus } from '@prisma/client';
+import { OrderStatus, PaymentStatus } from '../../common/types/status';
 import { ORDERS_REPOSITORY } from '../../common/constants/tokens';
 import { JwtPayload } from '../auth/auth.types';
 import { UserRole } from '../users/users.types';

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DeliveryStatus } from '@prisma/client';
+import { DeliveryStatus } from '../../common/types/status';
 import { NovaPoshtaClient } from './nova-poshta.client';
 import {
   CreateTtnInput,

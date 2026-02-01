@@ -1,5 +1,5 @@
 import { IsEnum, IsOptional } from 'class-validator';
-import { OrderStatus } from '@prisma/client';
+import { OrderStatus } from '../../../common/types/status';
 import { PaginationQueryDto } from './pagination-query.dto';
 
 export class OrderListQueryDto extends PaginationQueryDto {

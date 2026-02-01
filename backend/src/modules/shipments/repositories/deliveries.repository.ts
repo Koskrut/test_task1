@@ -1,4 +1,4 @@
-import { DeliveryStatus, Prisma } from '@prisma/client';
+import { DeliveryStatus } from '../../../common/types/status';
 
 export interface DeliveryEntity {
   id: string;
@@ -6,7 +6,7 @@ export interface DeliveryEntity {
   status: DeliveryStatus;
   ttn: string | null;
   providerRef: string | null;
-  shippingCost: Prisma.Decimal;
+  shippingCost: number;
   createdAt: Date;
   updatedAt: Date;
 }

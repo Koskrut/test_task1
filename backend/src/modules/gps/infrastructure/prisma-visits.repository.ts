@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { VisitStatus } from '@prisma/client';
+import { VisitStatus } from '../../../common/types/status';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import {
   CreateVisitInput,

@@ -5,7 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { VisitStatus } from '@prisma/client';
+import { VisitStatus } from '../../common/types/status';
 import {
   DEVICE_SESSIONS_REPOSITORY,
   GEOFENCES_REPOSITORY,

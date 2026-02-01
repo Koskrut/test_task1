@@ -1,9 +1,9 @@
-import { DeliveryStatus } from '@prisma/client';
+import { DeliveryStatus } from '../../../common/types/status';
 
 export class ShipmentStatusResponseDto {
-  ttn: string;
-  providerStatus: string | null;
-  deliveryStatus: DeliveryStatus;
-  raw: Record<string, unknown>;
-  updatedAt: Date;
+  ttn!: string;
+  providerStatus!: string | null;
+  deliveryStatus!: DeliveryStatus;
+  raw!: Record<string, unknown>;
+  updatedAt!: Date;
 }

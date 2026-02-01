@@ -1,11 +1,11 @@
-import { DeliveryStatus, OrderStatus, PaymentStatus, Prisma } from '@prisma/client';
+import { DeliveryStatus, OrderStatus, PaymentStatus } from '../../../common/types/status';
 
 export interface ClientOrderSummaryRecord {
   id: string;
   orderNumber: string;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
-  totalAmount: Prisma.Decimal;
+  totalAmount: number;
   currency: string;
   createdAt: Date;
   deliveryStatus: DeliveryStatus | null;
@@ -18,8 +18,8 @@ export interface ClientOrderDetailRecord extends ClientOrderSummaryRecord {
     id: string;
     productId: string | null;
     qty: number;
-    priceAmount: Prisma.Decimal;
-    totalAmount: Prisma.Decimal;
+    priceAmount: number;
+    totalAmount: number;
   }[];
 }
 
@@ -47,7 +47,7 @@ export interface ClientOrdersRepository {
     items: {
       productId: string | null;
       qty: number;
-      priceAmount: Prisma.Decimal;
+      priceAmount: number;
     }[],
     managerId?: string | null,
   ): Promise<ClientOrderDetailRecord>;

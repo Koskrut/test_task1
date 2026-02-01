@@ -1,12 +1,10 @@
-import { Prisma } from '@prisma/client';
-
 export interface ShipmentEntity {
   id: string;
   deliveryId: string;
   ttn: string | null;
   npRef: string | null;
   status: string | null;
-  raw: Prisma.JsonValue;
+  raw: Record<string, unknown>;
   createdAt: Date;
 }
 

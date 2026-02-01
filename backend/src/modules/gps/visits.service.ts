@@ -5,7 +5,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { VisitStatus } from '@prisma/client';
+import { VisitStatus } from '../../common/types/status';
 import {
   GEOFENCES_REPOSITORY,
   GPS_LOGS_REPOSITORY,

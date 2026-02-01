@@ -3,7 +3,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { AUDIT_LOGS_REPOSITORY } from '../../common/constants/tokens';
 import { AuditLogsRepository } from '../../common/repositories/audit-logs.repository';
 import { ClientContextService } from './client-context.service';
@@ -102,7 +101,7 @@ export class ClientOrdersService {
     const items = existing.items.map((item) => ({
       productId: item.productId,
       qty: item.qty,
-      priceAmount: new Prisma.Decimal(item.priceAmount),
+      priceAmount: item.priceAmount,
     }));
 
     const created = await this.ordersRepo.createRepeatOrder(

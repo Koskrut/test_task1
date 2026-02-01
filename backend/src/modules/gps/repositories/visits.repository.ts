@@ -1,4 +1,4 @@
-import { VisitStatus } from '@prisma/client';
+import { VisitStatus } from '../../../common/types/status';
 
 export interface VisitEntity {
   id: string;

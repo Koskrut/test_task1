@@ -11,7 +11,7 @@ import { CreateOrderItemDto } from './create-order-item.dto';
 
 export class CreateOrderDto {
   @IsUUID()
-  clientId: string;
+  clientId!: string;
 
   @IsOptional()
   @IsUUID()
@@ -30,5 +30,5 @@ export class CreateOrderDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateOrderItemDto)
-  items: CreateOrderItemDto[];
+  items!: CreateOrderItemDto[];
 }
