@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react'
+import type { InputHTMLAttributes } from 'react'
 import { clsx } from '../lib/clsx'
 
 type InputProps = InputHTMLAttributes<HTMLInputElement>

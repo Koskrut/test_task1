@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { useAuthStore } from '../../features/auth/model/authStore'
-import { UserRole } from '../../entities/user/model/types'
+import type { UserRole } from '../../entities/user/model/types'
 import { Spinner } from '../../shared/ui/Spinner'
 
 function LoadingScreen() {

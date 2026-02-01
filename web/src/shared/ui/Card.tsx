@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { clsx } from '../lib/clsx'
 
 export function Card({

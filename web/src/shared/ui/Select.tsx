@@ -1,4 +1,4 @@
-import { SelectHTMLAttributes } from 'react'
+import type { SelectHTMLAttributes } from 'react'
 import { clsx } from '../lib/clsx'
 
 type SelectProps = SelectHTMLAttributes<HTMLSelectElement>

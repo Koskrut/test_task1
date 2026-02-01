@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes } from 'react'
 import { clsx } from '../lib/clsx'
 
 type Variant = 'primary' | 'secondary' | 'ghost'

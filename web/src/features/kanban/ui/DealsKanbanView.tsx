@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
   DndContext,
-  DragEndEvent,
   PointerSensor,
   useDroppable,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
+import type { DragEndEvent } from '@dnd-kit/core'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import type { Deal, PipelineStage } from '../../../entities/deal/model/types'
