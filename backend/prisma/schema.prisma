@@ -230,6 +230,22 @@ enum DeliveryStatus {
   @@map("delivery_status")
 }
 
+enum CrmClientStatus {
+  lead
+  active
+  inactive
+  archived
+
+  @@map("crm_client_status")
+}
+
+enum CrmClientType {
+  person
+  company
+
+  @@map("crm_client_type")
+}
+
 model GpsLog {
   id         String   @id @default(uuid()) @db.Uuid
   userId     String   @map("user_id") @db.Uuid
@@ -369,4 +385,128 @@ model WebhookEvent {
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   @@map("webhook_events")
+}
+
+model CrmClient {
+  id                String          @id @default(uuid()) @db.Uuid
+  userId            String?         @map("user_id") @db.Uuid
+  status            CrmClientStatus @default(lead)
+  type              CrmClientType   @default(person)
+  name              String          @db.VarChar(255)
+  companyName       String?         @map("company_name") @db.VarChar(255)
+  email             String?         @db.VarChar(255)
+  phone             String?         @db.VarChar(32)
+  source            String?         @db.VarChar(64)
+  assignedManagerId String?         @map("assigned_manager_id") @db.Uuid
+  createdAt         DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime        @default(now()) @map("updated_at") @db.Timestamptz(6)
+  deletedAt         DateTime?       @map("deleted_at") @db.Timestamptz(6)
+
+  addresses             Address[]
+  documents             ClientDocument[]
+  notificationPreference ClientNotificationPreference?
+
+  @@map("crm_clients")
+}
+
+model Address {
+  id          String   @id @default(uuid()) @db.Uuid
+  crmClientId String?  @map("crm_client_id") @db.Uuid
+  label       String?  @db.VarChar(64)
+  country     String   @default("UA") @db.VarChar(2)
+  region      String?  @db.VarChar(128)
+  city        String?  @db.VarChar(128)
+  street      String?  @db.VarChar(255)
+  house       String?  @db.VarChar(32)
+  apartment   String?  @db.VarChar(32)
+  postalCode  String?  @map("postal_code") @db.VarChar(16)
+  lat         Float?
+  lng         Float?
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  client CrmClient? @relation(fields: [crmClientId], references: [id], onDelete: Cascade)
+
+  @@map("addresses")
+}
+
+model Attachment {
+  id              String   @id @default(uuid()) @db.Uuid
+  fileName        String   @map("file_name") @db.VarChar(255)
+  mimeType        String?  @map("mime_type") @db.VarChar(128)
+  sizeBytes       BigInt?  @map("size_bytes")
+  storageProvider String   @default("minio") @map("storage_provider") @db.VarChar(32)
+  storageKey      String   @map("storage_key")
+  checksumSha256  String?  @map("checksum_sha256") @db.VarChar(64)
+  uploadedBy      String?  @map("uploaded_by") @db.Uuid
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("attachments")
+}
+
+model ClientDocument {
+  id           String   @id @default(uuid()) @db.Uuid
+  clientId     String   @map("client_id") @db.Uuid
+  title        String   @db.VarChar(255)
+  documentType String?  @map("document_type") @db.VarChar(64)
+  attachmentId String   @map("attachment_id") @db.Uuid
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  client     CrmClient  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  attachment Attachment @relation(fields: [attachmentId], references: [id], onDelete: Cascade)
+
+  @@map("client_documents")
+}
+
+model ClientNotificationPreference {
+  id            String   @id @default(uuid()) @db.Uuid
+  clientId      String   @unique @map("client_id") @db.Uuid
+  emailEnabled  Boolean  @default(true) @map("email_enabled")
+  smsEnabled    Boolean  @default(false) @map("sms_enabled")
+  pushEnabled   Boolean  @default(true) @map("push_enabled")
+  inAppEnabled  Boolean  @default(true) @map("in_app_enabled")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  client CrmClient @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@map("client_notification_preferences")
+}
+
+model Conversation {
+  id        String   @id @default(uuid()) @db.Uuid
+  clientId  String   @map("client_id") @db.Uuid
+  managerId String?  @map("manager_id") @db.Uuid
+  status    String   @default("open") @db.VarChar(32)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  messages Message[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String   @id @default(uuid()) @db.Uuid
+  conversationId String   @map("conversation_id") @db.Uuid
+  senderId       String   @map("sender_id") @db.Uuid
+  body           String?
+  attachmentId   String?  @map("attachment_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  attachment   Attachment?  @relation(fields: [attachmentId], references: [id], onDelete: SetNull)
+
+  @@map("messages")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  actorId    String?  @map("actor_id") @db.Uuid
+  action     String   @db.VarChar(64)
+  entityType String?  @map("entity_type") @db.VarChar(64)
+  entityId   String?  @map("entity_id") @db.Uuid
+  ipAddress  String?  @map("ip_address") @db.Inet
+  userAgent  String?
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("audit_logs")
 }

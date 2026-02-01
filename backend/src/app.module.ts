@@ -9,6 +9,7 @@ import { GpsModule } from './modules/gps/gps.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { ShipmentsModule } from './modules/shipments/shipments.module';
 import { NovaPoshtaModule } from './modules/nova-poshta/nova-poshta.module';
+import { ClientCabinetModule } from './modules/client-cabinet/client-cabinet.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { NovaPoshtaModule } from './modules/nova-poshta/nova-poshta.module';
     OrdersModule,
     ShipmentsModule,
     NovaPoshtaModule,
+    ClientCabinetModule,
   ],
 })
 export class AppModule {}
