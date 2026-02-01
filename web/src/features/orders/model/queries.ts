@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { getOrderById, getOrders, getShipmentStatus, OrdersQuery } from '../api'
+import { getOrderById, getOrders, getShipmentStatus } from '../api'
+import type { OrdersQuery } from '../api'
 
 export function useOrders(query: OrdersQuery) {
   return useQuery({

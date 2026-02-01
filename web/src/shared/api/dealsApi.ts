@@ -1,5 +1,5 @@
 import { apiRequest } from './apiClient'
-import { Deal, Pipeline } from '../../entities/deal/model/types'
+import type { Deal, Pipeline } from '../../entities/deal/model/types'
 
 export async function getPipelines(): Promise<Pipeline[]> {
   return apiRequest({

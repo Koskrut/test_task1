@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { getClients, getClientById, ClientsQuery } from '../api'
+import { getClients, getClientById } from '../api'
+import type { ClientsQuery } from '../api'
 
 export function useClients(query: ClientsQuery) {
   return useQuery({

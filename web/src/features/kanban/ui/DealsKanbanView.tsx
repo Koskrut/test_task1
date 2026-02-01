@@ -9,7 +9,7 @@ import {
 } from '@dnd-kit/core'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Deal, PipelineStage } from '../../../entities/deal/model/types'
+import type { Deal, PipelineStage } from '../../../entities/deal/model/types'
 import { Card } from '../../../shared/ui/Card'
 import { ErrorState } from '../../../shared/ui/ErrorState'
 import { PageHeader } from '../../../shared/ui/PageHeader'
